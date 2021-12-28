@@ -1,4 +1,5 @@
 import React from 'react'
+import './detail.css'
 
 export default function DetailPage() {
   return (
@@ -31,7 +32,7 @@ export default function DetailPage() {
       </div>
 
       <hr className="mb-5" />
-      <button>Back home</button>
+      <button className="btn btn-purple">Back home</button>
     </div>
   )
 }
