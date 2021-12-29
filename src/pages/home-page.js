@@ -4,17 +4,41 @@ import './home.css'
 
 export default function HomePage() {
   const [pokemonsPaginateData, setPokemonsPaginateData] = useState([])
+  const [pageNumber, setPageNumber] = useState(0)
 
   const fetchPokemonsPaginateData = useCallback((offset = 0, limit = 20) => {
-    const url = `https://pokeapi.co/api/v2/pokemon?${offset}=1&limit=${limit}`
+    const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
     return axios.get(url).then(response => response.data)
   }, [])
 
   useEffect(() => {
-    fetchPokemonsPaginateData().then(pokemonsPaginateData => {
-      setPokemonsPaginateData(pokemonsPaginateData?.results)
-    })
-  }, [fetchPokemonsPaginateData])
+    const limit = 20
+    console.log(pageNumber)
+    fetchPokemonsPaginateData(pageNumber, limit).then(
+      resPokemonsPaginateData => {
+        setPokemonsPaginateData(resPokemonsPaginateData?.results)
+      }
+    )
+  }, [fetchPokemonsPaginateData, pageNumber])
+
+  const centerOfPaginate = () => {
+    const clonePageNumber = pageNumber / 20 + 1
+    const array =
+      clonePageNumber === 1
+        ? [1, 2]
+        : [clonePageNumber - 1, clonePageNumber, clonePageNumber + 1]
+    return array.map((p, i) => (
+      <li
+        key={i}
+        className={`page-item ${clonePageNumber === p ? 'active' : ''}`}
+        onClick={e => {
+          setPageNumber((Number(e.target.innerText) - 1) * 20)
+        }}
+      >
+        <button className="page-link">{p}</button>
+      </li>
+    ))
+  }
 
   return (
     <div className="container">
@@ -50,35 +74,43 @@ export default function HomePage() {
       <div className="row" id="pokemon-pagination">
         <nav aria-label="Page navigation example">
           <ul className="pagination justify-content-center">
-            <li className="page-item disabled">
-              <a
+            <li className={`page-item${pageNumber === 0 ? ' disabled' : ''}`}>
+              <button
                 className="page-link"
-                href="#!"
                 tabIndex="-1"
-                aria-disabled="true"
+                aria-disabled={pageNumber === 0 ? true : false}
+                onClick={() =>
+                  setPageNumber(prevPageNumber => {
+                    if (prevPageNumber - 20 < 0) {
+                      return 0
+                    }
+                    return prevPageNumber - 20
+                  })
+                }
               >
                 Previous
-              </a>
+              </button>
             </li>
-            <li className="page-item active">
-              <a className="page-link" href="#!">
-                1
-              </a>
-            </li>
+
+            {centerOfPaginate()}
+
             <li className="page-item">
-              <a className="page-link" href="#!">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#!">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#!">
+              <button
+                className="page-link"
+                onClick={() =>
+                  setPageNumber(prevPageNumber => {
+                    if (
+                      prevPageNumber + 20 >
+                      Number(`${pokemonsPaginateData?.count}`)
+                    ) {
+                      return prevPageNumber
+                    }
+                    return prevPageNumber + 20
+                  })
+                }
+              >
                 Next
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
