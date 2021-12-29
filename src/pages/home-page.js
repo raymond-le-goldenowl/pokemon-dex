@@ -1,44 +1,50 @@
 import axios from 'axios'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import useWindowPosition from '../hooks/useWindowPosition'
 import './home.css'
 
 export default function HomePage() {
-  const [pokemonsPaginateData, setPokemonsPaginateData] = useState([])
-  const [pageNumber, setPageNumber] = useState(0)
+  // save all pokemons.
+  const pokemonsRef = useRef()
+  const [pokemons, setPokemons] = useState([])
+  // Pokemon for display to screen.
+  const [pokemonsDisplay, setPokemonsDisplay] = useState([])
 
-  const fetchPokemonsPaginateData = useCallback((offset = 0, limit = 20) => {
+  const limit = 1118
+  const [offset, setOffset] = useState(0)
+  // Hook for get scroll position.
+  const pageScrollData = useWindowPosition()
+  const divListPokemonRef = useRef()
+
+  // Fetch pokemons with params are offset and limit.
+  const fetchPokemons = useCallback((offset = 0, limit = 20) => {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
     return axios.get(url).then(response => response.data)
   }, [])
 
+  // Running when scroll, to check is end of data. For call new data.
   useEffect(() => {
-    const limit = 20
-    console.log(pageNumber)
-    fetchPokemonsPaginateData(pageNumber, limit).then(
-      resPokemonsPaginateData => {
-        setPokemonsPaginateData(resPokemonsPaginateData?.results)
-      }
-    )
-  }, [fetchPokemonsPaginateData, pageNumber])
+    const contentHeight = divListPokemonRef.current.offsetHeight
+    const y = pageScrollData + window.innerHeight
 
-  const centerOfPaginate = () => {
-    const clonePageNumber = pageNumber / 20 + 1
-    const array =
-      clonePageNumber === 1
-        ? [1, 2]
-        : [clonePageNumber - 1, clonePageNumber, clonePageNumber + 1]
-    return array.map((p, i) => (
-      <li
-        key={i}
-        className={`page-item ${clonePageNumber === p ? 'active' : ''}`}
-        onClick={e => {
-          setPageNumber((Number(e.target.innerText) - 1) * 20)
-        }}
-      >
-        <button className="page-link">{p}</button>
-      </li>
-    ))
-  }
+    if (y > contentHeight && pageScrollData > 0 && contentHeight > 0) {
+      setOffset(prev => prev + 20)
+    }
+  }, [pageScrollData])
+
+  // Fetch all pokemons fist load.
+  useEffect(() => {
+    fetchPokemons(0, limit).then(resPokemons => {
+      setPokemons(resPokemons?.results)
+      pokemonsRef.current = resPokemons?.results
+    })
+  }, [fetchPokemons])
+
+  // Slice pokemons when offset changed.
+  useEffect(() => {
+    const pokemonSlice = pokemons.slice(offset, offset + 20)
+    setPokemonsDisplay(prePokemons => [...prePokemons, ...pokemonSlice])
+  }, [pokemons, offset])
 
   return (
     <div className="container">
@@ -60,65 +66,20 @@ export default function HomePage() {
       </form>
 
       {/* List Carts Of Pokemon */}
-      <div className="row mb-5" id="list-of-pokemon">
-        {pokemonsPaginateData.map((pokemon, index) => (
+      <div className="row mb-5" id="list-of-pokemon" ref={divListPokemonRef}>
+        {pokemonsDisplay.map((pokemon, index) => (
           <CardPokemon
             key={index}
             pokemon={pokemon}
-            fetchPokemonsPaginateData={fetchPokemonsPaginateData}
+            fetchPokemonsPaginateData={fetchPokemons}
           />
         ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="row" id="pokemon-pagination">
-        <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
-            <li className={`page-item${pageNumber === 0 ? ' disabled' : ''}`}>
-              <button
-                className="page-link"
-                tabIndex="-1"
-                aria-disabled={pageNumber === 0 ? true : false}
-                onClick={() =>
-                  setPageNumber(prevPageNumber => {
-                    if (prevPageNumber - 20 < 0) {
-                      return 0
-                    }
-                    return prevPageNumber - 20
-                  })
-                }
-              >
-                Previous
-              </button>
-            </li>
-
-            {centerOfPaginate()}
-
-            <li className="page-item">
-              <button
-                className="page-link"
-                onClick={() =>
-                  setPageNumber(prevPageNumber => {
-                    if (
-                      prevPageNumber + 20 >
-                      Number(`${pokemonsPaginateData?.count}`)
-                    ) {
-                      return prevPageNumber
-                    }
-                    return prevPageNumber + 20
-                  })
-                }
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   )
 }
 
+// Sub component for homepage render Pokemon Card.
 function CardPokemon({ pokemon, fetchPokemonsPaginateData }) {
   // save state detail pokemon.
   const [detailPokemon, setDetailPokemon] = useState(() => ({
