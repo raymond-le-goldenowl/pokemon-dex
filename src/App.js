@@ -1,10 +1,15 @@
-import DetailPage from './pages/detail-page'
-import HomePage from './pages/home-page'
+import { Suspense } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { history, renderRouteConfigs, _routes } from './Router'
 
 function App() {
   return (
     <div className="App">
-      <DetailPage />
+      <Suspense fallback={<p>...</p>}>
+        <BrowserRouter history={history}>
+          {renderRouteConfigs(_routes)}
+        </BrowserRouter>
+      </Suspense>
     </div>
   )
 }
