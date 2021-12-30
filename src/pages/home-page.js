@@ -60,6 +60,7 @@ export default function HomePage() {
       const stn = 'name'
       const stt = 'type'
 
+      // check is search by NAME or TYPE
       if (searchType.type === stn) {
         const resultFilter = pokemons.filter(pokemon => {
           return pokemon.name.trim().includes(`${keywords}`.trim())
@@ -77,6 +78,7 @@ export default function HomePage() {
               return type.name.trim().includes(`${keywords}`.trim())
             })
           })
+          // filter type and get all pokemon with type name.
           .then(resultTypeFilter => {
             axios
               .get(`${resultTypeFilter[0]?.url}`)
@@ -85,11 +87,10 @@ export default function HomePage() {
                 const result = typeDetail?.pokemon.map(
                   pokemon => pokemon.pokemon
                 )
+                // set result filter for display pokemon.
                 setPokemonsDisplay(result)
               })
           })
-        // filter type and get all pokemon with type name.
-        // set result filter for display pokemon.
       }
     }
   }
@@ -111,12 +112,25 @@ export default function HomePage() {
               className="form-control"
               id="SearchPokemon"
               aria-describedby="SearchPokemon"
-              onChange={e => setKeywords(e.target.value)}
+              onChange={e => {
+                setKeywords(e.target.value)
+
+                // reset pokemons while input search form is empty.
+                if (e.target.value.trim() === '') {
+                  const pokemonSlice = pokemons.slice(offset, offset + 20)
+                  setPokemonsDisplay(pokemonSlice)
+                }
+              }}
             />
           </div>
 
-          <div className="col-2">
+          <div className="col-2 d-flex align-items-end">
             <select
+              style={{
+                minWidth: '100px',
+                height: '50px',
+                borderRadius: '50px'
+              }}
               className="form-select"
               aria-label="Default select example"
               defaultValue={`name`}
