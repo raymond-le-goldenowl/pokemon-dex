@@ -3,7 +3,7 @@ import './home.css'
 
 export default function HomePage() {
   return (
-    <div className="container-fluid">
+    <div className="container">
       {/* Logo */}
       <h1 className="text-center mb-5" id="logo-page">
         Pokemon Dex
