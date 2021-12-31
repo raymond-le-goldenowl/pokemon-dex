@@ -83,11 +83,11 @@ export default function DetailPage() {
           </p>
           <p>
             <span>
-              <b>Weight:</b> {detailPokemon.weight}
+              <b>Weight:</b> {detailPokemon.weight} KG
             </span>
             {` `}
             <span>
-              <b>Height:</b> {detailPokemon.height}
+              <b>Height:</b> {detailPokemon.height} M
             </span>
           </p>
           <div className="pts-content-sm">
@@ -110,19 +110,24 @@ export default function DetailPage() {
         </div>
       </div>
       <div className="row mb-5">
-        <div className="col-md-4">
+        <div className="col-md-6">
           <h3 className="title">Stats</h3>
-          <div className="row pts-content-sm">
-            <div className="col-4">hihi</div>
-            <div className="col-4">hihi</div>
-            <div className="col-4">hihi</div>
-            <div className="col-4">hihi</div>
-            <div className="col-4">hihi</div>
-            <div className="col-4">hihi</div>
+          <div className="row pts-content-sm-l text-center">
+            {Object.values(detailPokemon.stats).map((stat, index) => (
+              <div
+                className="col-4 d-flex flex-column mt-3"
+                key={index + Date.now()}
+              >
+                <span>
+                  <strong>{stat.stat.name}</strong>
+                </span>
+                <span>{stat.base_stat}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="col-md-8">
-          <h3 className="title">Evolutions</h3>
+        <div className="col-md-6">
+          <h3 className="title">Evolution</h3>
           <div className="row pts-content-sm">
             <div className="col-4">hihi</div>
             <div className="col-4">hihi</div>
