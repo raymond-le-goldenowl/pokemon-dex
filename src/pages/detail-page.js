@@ -17,7 +17,8 @@ export default function DetailPage() {
     base_experience: '',
     weight: '',
     height: '',
-    abilities: []
+    abilities: [],
+    stats: []
   }))
 
   // get detail of pokemon.
@@ -50,7 +51,7 @@ export default function DetailPage() {
   }, [id, fetchDetailPokemon])
 
   return (
-    <div className="container">
+    <div className="container mb-4">
       {/* Logo */}
       <h1 className="text-center mb-5" id="logo-page">
         Pokemon Dex
@@ -59,17 +60,20 @@ export default function DetailPage() {
       {/* Detail a pokemon */}
 
       <div className="row mb-5">
-        <div className="col-md-8">
+        <div className="col-md-6">
           <img
             src={`${detailPokemon.front_default}`}
             className="img-fluid"
             alt={detailPokemon.name}
-            width="50%"
-            height="50%"
+            width="100%"
+            height="100%"
           />
         </div>
-        <div className="col-md-4">
-          <h3>Name: {`${detailPokemon.name}`.toUpperCase()}</h3>
+        <div className="col-md-6 pts-content-b">
+          <h3 className="title">Bio</h3>
+          <p>
+            <b>Name:</b> {`${detailPokemon.name}`.toUpperCase()}
+          </p>
           <p>
             <b>Types: </b>
             {detailPokemon.types}
@@ -86,22 +90,48 @@ export default function DetailPage() {
               <b>Height:</b> {detailPokemon.height}
             </span>
           </p>
-          <b>Effect entries: </b>
-          <ul>
-            {
-              // eslint-disable-next-line array-callback-return
-              Object.values(detailPokemon?.abilities).map((ability, index) => {
-                if (ability?.is_hidden === false) {
-                  return <EffectItem key={index} url={ability?.ability?.url} />
-                }
-              })
-            }
-          </ul>
+          <div className="pts-content-sm">
+            <b>Effect entries: </b>
+            <ul>
+              {
+                // eslint-disable-next-line array-callback-return
+                Object.values(detailPokemon?.abilities).map(
+                  (ability, index) => {
+                    if (ability?.is_hidden === false) {
+                      return (
+                        <EffectItem key={index} url={ability?.ability?.url} />
+                      )
+                    }
+                  }
+                )
+              }
+            </ul>
+          </div>
         </div>
       </div>
-
+      <div className="row mb-5">
+        <div className="col-md-4">
+          <h3 className="title">Stats</h3>
+          <div className="row pts-content-sm">
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+          </div>
+        </div>
+        <div className="col-md-8">
+          <h3 className="title">Evolutions</h3>
+          <div className="row pts-content-sm">
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+            <div className="col-4">hihi</div>
+          </div>
+        </div>
+      </div>
       <hr className="mb-5" />
-      <Link to={'/home'} className="btn btn-purple">
+      <Link to={'/home'} className="btn btn-purple pts-content-sm">
         Back home
       </Link>
     </div>
