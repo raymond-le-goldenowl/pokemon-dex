@@ -40,6 +40,8 @@ export default function DetailPage() {
         data.weight = response?.weight
         data.height = response?.height
         data.abilities = response?.abilities
+        data.stats = response?.stats
+        console.log(data)
 
         // set data for state.
         setDetailPokemon(data)

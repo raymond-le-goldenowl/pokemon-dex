@@ -198,7 +198,7 @@ function CardPokemon({ pokemon }) {
             <b>Types</b>: {detailPokemon.types}
           </p>
           <div className="d-flex justify-content-end">
-            <a href={`#${detailPokemon.id}`} className="btn btn-purple">
+            <a href={`/detail/${detailPokemon.id}`} className="btn btn-purple">
               Detail
             </a>
           </div>
