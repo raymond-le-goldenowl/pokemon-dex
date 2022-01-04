@@ -65,7 +65,6 @@ export default function HomePage() {
         const resultFilter = pokemons.filter(pokemon => {
           return pokemon.name.trim().includes(`${keywords}`.trim())
         })
-        console.log(resultFilter)
         setPokemonsDisplay(resultFilter)
       }
       if (searchType.type === stt) {
@@ -104,20 +103,20 @@ export default function HomePage() {
       <form id="form-search" className="mb-5" onSubmit={handleSubmitSearchForm}>
         <div className="row">
           <div className="col-10">
-            <label htmlFor="SearchPokemon" className="form-label">
+            <label htmlFor="search-pokemon" className="form-label">
               Search
             </label>
             <input
               type="text"
               className="form-control"
-              id="SearchPokemon"
-              aria-describedby="SearchPokemon"
+              id="search-pokemon"
+              aria-describedby="search-pokemon"
               onChange={e => {
                 setKeywords(e.target.value)
 
                 // reset pokemons while input search form is empty.
                 if (e.target.value.trim() === '') {
-                  const pokemonSlice = pokemons.slice(offset, offset + 20)
+                  const pokemonSlice = pokemons.slice(0, 0 + 20)
                   setPokemonsDisplay(pokemonSlice)
                 }
               }}

@@ -1,3 +1,4 @@
+import DetailPage from './pages/detail-page'
 import HomePage from './pages/home-page'
 
 function App() {
