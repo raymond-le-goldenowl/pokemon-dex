@@ -39,7 +39,7 @@ export default function HomePage() {
       <div className="row mb-5" id="list-of-pokemon">
         {pokemonsPaginateData.map((pokemon, index) => (
           <CardPokemon
-            key={index}
+            key={index + Date.now()}
             pokemon={pokemon}
             fetchPokemonsPaginateData={fetchPokemonsPaginateData}
           />
