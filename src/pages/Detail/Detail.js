@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import AbilityOfPokemon from './components/AbilityOfPokemon'
+import VarietyOfPokemon from './components/VarietyOfPokemon'
 import './detail.css'
 
 export default function Detail() {
@@ -125,7 +127,10 @@ export default function Detail() {
                   (ability, index) => {
                     if (ability?.is_hidden === false) {
                       return (
-                        <EffectItem key={index} url={ability?.ability?.url} />
+                        <AbilityOfPokemon
+                          key={index}
+                          url={ability?.ability?.url}
+                        />
                       )
                     }
                   }
@@ -157,7 +162,7 @@ export default function Detail() {
           <div className="row pts-content-sm">
             {Object.values(evolutionChain).map((chain, index) => {
               return (
-                <Variety
+                <VarietyOfPokemon
                   key={index + Date.now()}
                   pokemon={chain}
                   index={index}
@@ -170,71 +175,6 @@ export default function Detail() {
       <hr className="mb-5" />
       <Link to={'/home'} className="btn btn-purple pts-content-sm">
         Back home
-      </Link>
-    </div>
-  )
-}
-
-const EffectItem = url => {
-  const [effect, setEffect] = useState('')
-
-  useEffect(() => {
-    axios.get(`${url.url}`).then(response => {
-      // eslint-disable-next-line array-callback-return
-      Object.values(response.data?.effect_entries).map(effect_entry => {
-        if (effect_entry?.language?.name === 'en') {
-          setEffect(effect_entry.effect)
-        }
-      })
-    })
-  }, [url])
-
-  return <li>{effect}</li>
-}
-
-const Variety = ({ pokemon, index }) => {
-  // save state detail pokemon.
-  const [detailPokemon, setDetailPokemon] = useState(() => ({
-    id: '',
-    name: '',
-    front_default: ''
-  }))
-
-  // get detail of pokemon.
-  const fetchDetailPokemon = useCallback(url => {
-    const _url = `${url}`.replaceAll('-species', '')
-    return axios.get(_url).then(response => response.data)
-  }, [])
-
-  useEffect(() => {
-    fetchDetailPokemon(`${pokemon?.url}`).then(response => {
-      // assignment data.
-      let data = {}
-      data.id = response?.id
-      data.name = response?.name
-      data.front_default = response?.sprites?.front_default
-
-      // set data for state.
-      setDetailPokemon(data)
-    })
-  }, [pokemon, fetchDetailPokemon])
-
-  return (
-    <div className="col-4 text-center">
-      <div>#{index + 1}</div>
-      <Link to={`/detail/${detailPokemon.id}`}>
-        <img
-          src={`${detailPokemon.front_default}`}
-          alt={`${detailPokemon.name}`}
-        />
-      </Link>
-
-      <Link
-        className="d-block h5"
-        style={{ textDecoration: 'none', color: 'black' }}
-        to={`/detail/${detailPokemon.id}`}
-      >
-        {detailPokemon.name}
       </Link>
     </div>
   )
