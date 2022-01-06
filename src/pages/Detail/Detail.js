@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import './detail.css'
 
-export default function DetailPage() {
+export default function Detail() {
   const params = useParams()
 
   const id = params.id || 1
