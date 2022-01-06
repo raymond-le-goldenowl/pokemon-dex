@@ -1,9 +1,11 @@
 import axios from 'axios'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import useWindowPosition from '../hooks/useWindowPosition'
+import useWindowPosition from '../../hooks/useWindowPosition'
+import CardPokemon from './components/CardPokemon'
 import './home.css'
+import { searchMode } from './constants'
 
-export default function HomePage() {
+export default function Home() {
   // state search keywords.
   const [keywords, setKeywords] = useState('')
   const [searchType, setSearchType] = useState({ type: 'name' })
@@ -57,17 +59,14 @@ export default function HomePage() {
   const handleSubmitSearchForm = e => {
     e.preventDefault()
     if (keywords.trim().length > 0) {
-      const stn = 'name'
-      const stt = 'type'
-
       // check is search by NAME or TYPE
-      if (searchType.type === stn) {
+      if (searchType.type === searchMode.NAME) {
         const resultFilter = pokemons.filter(pokemon => {
           return pokemon.name.trim().includes(`${keywords}`.trim())
         })
         setPokemonsDisplay(resultFilter)
       }
-      if (searchType.type === stt) {
+      if (searchType.type === searchMode.TYPE) {
         // get all types.
         axios
           .get('https://pokeapi.co/api/v2/type/')
@@ -147,61 +146,6 @@ export default function HomePage() {
         {pokemonsDisplay.map((pokemon, index) => (
           <CardPokemon key={index} pokemon={pokemon} />
         ))}
-      </div>
-    </div>
-  )
-}
-
-// Sub component for homepage render Pokemon Card.
-function CardPokemon({ pokemon }) {
-  // save state detail pokemon.
-  const [detailPokemon, setDetailPokemon] = useState(() => ({
-    id: '',
-    name: '',
-    front_default: '',
-    types: ''
-  }))
-
-  // get detail of pokemon.
-  const fetchDetailPokemon = useCallback(url => {
-    return axios.get(url).then(response => response.data)
-  }, [])
-
-  useEffect(() => {
-    fetchDetailPokemon(`${pokemon?.url}`).then(response => {
-      // assignment data.
-      let data = {}
-      data.id = response?.id
-      data.name = response?.name
-      data.types = response?.types
-      data.front_default = response?.sprites.front_default
-      const types = Object.values(response?.types).map(type => type.type.name)
-      data.types = types.join(', ') + '.'
-
-      // set data for state.
-      setDetailPokemon(data)
-    })
-  }, [pokemon?.url, fetchDetailPokemon])
-
-  return (
-    <div className="col-xl-3 col-lg-4 col-md-6 mt-4">
-      <div className="card card-pokemon">
-        <img
-          src={`${detailPokemon.front_default}`}
-          className="card-img-top"
-          alt={`${detailPokemon.name}`}
-        />
-        <div className="card-body">
-          <h5 className="card-title">{detailPokemon.name}</h5>
-          <p className="card-text">
-            <b>Types</b>: {detailPokemon.types}
-          </p>
-          <div className="d-flex justify-content-end">
-            <a href={`/detail/${detailPokemon.id}`} className="btn btn-purple">
-              Detail
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   )

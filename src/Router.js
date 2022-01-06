@@ -2,7 +2,7 @@ import React, { lazy } from 'react'
 import { createBrowserHistory } from 'history'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-const HomePage = lazy(() => import('./pages/home-page'))
+const HomePage = lazy(() => import('./pages/Home'))
 const DetailPage = lazy(() => import('./pages/Detail'))
 const DefaultRouteComponent = () => <Navigate to={_routes.homepage.path} />
 
