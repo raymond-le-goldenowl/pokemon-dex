@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
-import './detail.css'
+import './styles.css'
 
 export default function Detail() {
   const params = useParams()
@@ -14,14 +14,14 @@ export default function Detail() {
   const [detailPokemon, setDetailPokemon] = useState(() => ({
     id: '',
     name: '',
-    front_default: '',
+    frontDefault: '',
     types: '',
-    base_experience: '',
+    baseExperience: '',
     weight: '',
     height: '',
     abilities: [],
     stats: [],
-    url_species: ''
+    speciesUrl: ''
   }))
 
   const [evolutionChain, setEvolutionChain] = useState(() => ({}))
@@ -33,24 +33,24 @@ export default function Detail() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
-    const species = await axios.get(`${detailPokemon.url_species}`)
-    const _evolutionChain = await axios.get(
+    const species = await axios.get(`${detailPokemon.speciesUrl}`)
+    const resEvolutionChain = await axios.get(
       `${species.data.evolution_chain?.url}`
     )
-    const data = _evolutionChain.data?.chain
-    const species1 = data.species.name
-    const species1_url = data.species.url
+    const data = resEvolutionChain.data?.chain
+    const speciesOne = data.species.name
+    const urlOfSpeciesOne = data.species.url
 
-    const species2 = data.evolves_to[0]?.species.name
-    const species2_url = data.evolves_to[0]?.species.url
+    const speciesTwo = data.evolves_to[0]?.species.name
+    const urlOfSpeciesTwo = data.evolves_to[0]?.species.url
 
-    const species3 = data.evolves_to[0]?.evolves_to[0]?.species.name
-    const species3_url = data.evolves_to[0]?.evolves_to[0]?.species.url
+    const speciesThree = data.evolves_to[0]?.evolves_to[0]?.species.name
+    const urlOfSpeciesThree = data.evolves_to[0]?.evolves_to[0]?.species.url
 
     setEvolutionChain(() => [
-      { name: species1, url: species1_url },
-      { name: species2, url: species2_url },
-      { name: species3, url: species3_url }
+      { name: speciesOne, url: urlOfSpeciesOne },
+      { name: speciesTwo, url: urlOfSpeciesTwo },
+      { name: speciesThree, url: urlOfSpeciesThree }
     ])
   }, [detailPokemon])
 
@@ -62,15 +62,15 @@ export default function Detail() {
         data.id = response?.id
         data.name = response?.name
         data.types = response?.types
-        data.front_default = response?.sprites.front_default
+        data.frontDefault = response?.sprites.front_default
         const types = Object.values(response?.types).map(type => type.type.name)
         data.types = types.join(', ') + '.'
-        data.base_experience = response?.base_experience
+        data.baseExperience = response?.base_experience
         data.weight = response?.weight
         data.height = response?.height
         data.abilities = response?.abilities
         data.stats = response?.stats
-        data.url_species = response?.species.url
+        data.speciesUrl = response?.species.url
 
         // set data for state.
         setDetailPokemon(data)
@@ -90,7 +90,7 @@ export default function Detail() {
       <div className="row mb-5">
         <div className="col-md-6">
           <img
-            src={`${detailPokemon.front_default}`}
+            src={`${detailPokemon.frontDefault}`}
             className="img-fluid"
             alt={detailPokemon.name}
             width="100%"
@@ -107,7 +107,7 @@ export default function Detail() {
             {detailPokemon.types}
           </p>
           <p>
-            <b>Base experience:</b> {detailPokemon.base_experience}
+            <b>Base experience:</b> {detailPokemon.baseExperience}
           </p>
           <p>
             <span>

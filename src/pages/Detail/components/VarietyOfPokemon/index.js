@@ -7,7 +7,7 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   const [detailPokemon, setDetailPokemon] = useState(() => ({
     id: '',
     name: '',
-    front_default: ''
+    frontDefault: ''
   }))
 
   // get detail of pokemon.
@@ -17,16 +17,20 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   }, [])
 
   useEffect(() => {
-    fetchDetailPokemon(`${pokemon?.url}`).then(response => {
-      // assignment data.
-      let data = {}
-      data.id = response?.id
-      data.name = response?.name
-      data.front_default = response?.sprites?.front_default
+    fetchDetailPokemon(`${pokemon?.url}`)
+      .then(response => {
+        // assignment data.
+        let data = {}
+        data.id = response?.id
+        data.name = response?.name
+        data.frontDefault = response?.sprites?.front_default
 
-      // set data for state.
-      setDetailPokemon(data)
-    })
+        // set data for state.
+        setDetailPokemon(data)
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
   }, [pokemon, fetchDetailPokemon])
 
   return (
@@ -34,7 +38,7 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
       <div>#{index + 1}</div>
       <Link to={`/detail/${detailPokemon.id}`}>
         <img
-          src={`${detailPokemon.front_default}`}
+          src={`${detailPokemon.frontDefault}`}
           alt={`${detailPokemon.name}`}
         />
       </Link>

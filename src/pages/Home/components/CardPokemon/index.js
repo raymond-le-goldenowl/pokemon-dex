@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 // Sub component for homepage render Pokemon Card.
 export default function CardPokemon({ pokemon }) {
@@ -45,9 +46,9 @@ export default function CardPokemon({ pokemon }) {
             <b>Types</b>: {detailPokemon.types}
           </p>
           <div className="d-flex justify-content-end">
-            <a href={`/detail/${detailPokemon.id}`} className="btn btn-purple">
+            <Link to={`/detail/${detailPokemon.id}`} className="btn btn-purple">
               Detail
-            </a>
+            </Link>
           </div>
         </div>
       </div>

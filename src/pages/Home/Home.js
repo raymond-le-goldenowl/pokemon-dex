@@ -2,13 +2,13 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import useWindowPosition from '../../hooks/useWindowPosition'
 import CardPokemon from './components/CardPokemon'
-import './home.css'
+import './styles.css'
 import { searchMode } from './constants'
 
 export default function Home() {
   // state search keywords.
   const [keywords, setKeywords] = useState('')
-  const [searchType, setSearchType] = useState({ type: 'name' })
+  const [searchType, setSearchType] = useState({ type: searchMode.NAME })
 
   // save all pokemons.
   const [pokemons, setPokemons] = useState([])
@@ -59,11 +59,14 @@ export default function Home() {
   const handleSubmitSearchForm = e => {
     e.preventDefault()
     if (keywords.trim().length > 0) {
+      console.log(searchType.type)
       // check is search by NAME or TYPE
       if (searchType.type === searchMode.NAME) {
         const resultFilter = pokemons.filter(pokemon => {
           return pokemon.name.trim().includes(`${keywords}`.trim())
         })
+        console.log(`Searching ${keywords}`)
+        console.log(resultFilter)
         setPokemonsDisplay(resultFilter)
       }
       if (searchType.type === searchMode.TYPE) {
@@ -131,11 +134,11 @@ export default function Home() {
               }}
               className="form-select"
               aria-label="Default select example"
-              defaultValue={`name`}
+              defaultValue={searchMode.NAME}
               onChange={e => setSearchType({ type: e.target.value })}
             >
-              <option value="name">Name</option>
-              <option value="type">Type</option>
+              <option value={searchMode.NAME}>Name</option>
+              <option value={searchMode.TYPE}>Type</option>
             </select>
           </div>
         </div>

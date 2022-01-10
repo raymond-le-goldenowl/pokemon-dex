@@ -1,5 +1,5 @@
 .btn-purple {
-  background-color: var(--bs-pink) !important;
+  background-color: var(--bs-pink);
   color: #fff;
 }
 
@@ -15,11 +15,11 @@
 }
 
 .pts-content-sm {
-  font-size: 1.625rem !important;
+  font-size: 1.625rem;
 }
 
 .pts-content-sm-l {
-  font-size: 1.3rem !important;
+  font-size: 1.3rem;
 }
 /* ======================= Styles for LOGO page ======================= */
 #logo-page {

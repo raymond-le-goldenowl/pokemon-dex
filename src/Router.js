@@ -4,31 +4,30 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 const HomePage = lazy(() => import('./pages/Home'))
 const DetailPage = lazy(() => import('./pages/Detail'))
-const DefaultRouteComponent = () => <Navigate to={_routes.homepage.path} />
 
 export const history = createBrowserHistory()
 
-export const _routes = {
-  homepage: {
+export const routes = {
+  homePage: {
     path: '/home',
     exact: true,
     component: HomePage
   },
-  detailpage: {
+  detailPage: {
     path: '/detail/:id',
     exact: true,
     component: DetailPage
   },
   default: {
     path: '/',
-    component: DefaultRouteComponent
+    component: () => <Navigate to={`/home`} />
   }
 }
 
-export const renderRouteConfigs = _routes => {
+export const renderRouteConfigs = routes => {
   return (
     <Routes>
-      {Object.values(_routes).map((route, index) => {
+      {Object.values(routes).map((route, index) => {
         const Layout = route.layout || React.Fragment
 
         return (
