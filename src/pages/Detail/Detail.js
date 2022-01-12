@@ -1,6 +1,6 @@
-import axios from 'axios'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import pokemonService from '../../services/pokemonService'
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
 import './styles.css'
@@ -21,62 +21,31 @@ export default function Detail() {
     height: '',
     abilities: [],
     stats: [],
-    speciesUrl: ''
+    speciesUrl: null
   }))
 
   const [evolutionChain, setEvolutionChain] = useState(() => ({}))
 
-  // get detail of pokemon.
-  const fetchDetailPokemon = useCallback(url => {
-    return axios.get(url).then(response => response.data)
-  }, [])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    const species = await axios.get(`${detailPokemon.speciesUrl}`)
-    const resEvolutionChain = await axios.get(
-      `${species.data.evolution_chain?.url}`
-    )
-    const data = resEvolutionChain.data?.chain
-    const speciesOne = data.species.name
-    const urlOfSpeciesOne = data.species.url
-
-    const speciesTwo = data.evolves_to[0]?.species.name
-    const urlOfSpeciesTwo = data.evolves_to[0]?.species.url
-
-    const speciesThree = data.evolves_to[0]?.evolves_to[0]?.species.name
-    const urlOfSpeciesThree = data.evolves_to[0]?.evolves_to[0]?.species.url
-
-    setEvolutionChain(() => [
-      { name: speciesOne, url: urlOfSpeciesOne },
-      { name: speciesTwo, url: urlOfSpeciesTwo },
-      { name: speciesThree, url: urlOfSpeciesThree }
-    ])
+  useEffect(() => {
+    const fetchEvolutionChain = async () => {
+      if (detailPokemon.speciesUrl !== null) {
+        pokemonService
+          .getEvolutionChain(detailPokemon.speciesUrl)
+          .then(data => {
+            setEvolutionChain(data)
+          })
+      }
+    }
+    fetchEvolutionChain()
   }, [detailPokemon])
 
   useEffect(() => {
-    fetchDetailPokemon(`https://pokeapi.co/api/v2/pokemon/${id}/`).then(
-      response => {
-        // assignment data.
-        let data = {}
-        data.id = response?.id
-        data.name = response?.name
-        data.types = response?.types
-        data.frontDefault = response?.sprites.front_default
-        const types = Object.values(response?.types).map(type => type.type.name)
-        data.types = types.join(', ') + '.'
-        data.baseExperience = response?.base_experience
-        data.weight = response?.weight
-        data.height = response?.height
-        data.abilities = response?.abilities
-        data.stats = response?.stats
-        data.speciesUrl = response?.species.url
-
-        // set data for state.
+    pokemonService
+      .getOnePokemon(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .then(data => {
         setDetailPokemon(data)
-      }
-    )
-  }, [id, fetchDetailPokemon])
+      })
+  }, [id])
 
   return (
     <div className="container mb-4">
@@ -121,21 +90,21 @@ export default function Detail() {
           <div className="pts-content-sm">
             <b>Effect entries: </b>
             <ul>
-              {
-                // eslint-disable-next-line array-callback-return
-                Object.values(detailPokemon?.abilities).map(
-                  (ability, index) => {
-                    if (ability?.is_hidden === false) {
-                      return (
-                        <AbilityOfPokemon
-                          key={index}
-                          url={ability?.ability?.url}
-                        />
-                      )
-                    }
-                  }
+              {Object.values(detailPokemon?.abilities).map((ability, index) => {
+                if (ability?.isHidden === false) {
+                  return (
+                    <AbilityOfPokemon
+                      key={index + Date.now() + Math.random()}
+                      url={ability?.ability?.url}
+                    />
+                  )
+                }
+                return (
+                  <React.Fragment
+                    key={index + Date.now() + Math.random()}
+                  ></React.Fragment>
                 )
-              }
+              })}
             </ul>
           </div>
         </div>
@@ -147,12 +116,12 @@ export default function Detail() {
             {Object.values(detailPokemon.stats).map((stat, index) => (
               <div
                 className="col-4 d-flex flex-column mt-3"
-                key={index + Date.now()}
+                key={index + Date.now() + Math.random()}
               >
                 <span>
                   <strong>{stat.stat.name}</strong>
                 </span>
-                <span>{stat.base_stat}</span>
+                <span>{stat.baseStat}</span>
               </div>
             ))}
           </div>
@@ -163,7 +132,7 @@ export default function Detail() {
             {Object.values(evolutionChain).map((chain, index) => {
               return (
                 <VarietyOfPokemon
-                  key={index + Date.now()}
+                  key={index + Date.now() + Math.random()}
                   pokemon={chain}
                   index={index}
                 />

@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import pokemonService from '../../../../services/pokemonService'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
   // save state detail pokemon.
@@ -11,28 +11,14 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   }))
 
   // get detail of pokemon.
-  const fetchDetailPokemon = useCallback(url => {
-    const _url = `${url}`.replaceAll('-species', '')
-    return axios.get(_url).then(response => response.data)
-  }, [])
-
   useEffect(() => {
-    fetchDetailPokemon(`${pokemon?.url}`)
-      .then(response => {
-        // assignment data.
-        let data = {}
-        data.id = response?.id
-        data.name = response?.name
-        data.frontDefault = response?.sprites?.front_default
+    const replaceUrl = `${pokemon?.url}`.replaceAll('-species', '')
+    pokemonService.getOnePokemon(replaceUrl).then(data => {
+      setDetailPokemon(data)
+    })
+  }, [pokemon])
 
-        // set data for state.
-        setDetailPokemon(data)
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
-  }, [pokemon, fetchDetailPokemon])
-
+  // render ui.
   return (
     <div className="col-4 text-center">
       <div>#{index + 1}</div>

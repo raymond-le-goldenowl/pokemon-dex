@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import pokemonService from '../../../../services/pokemonService'
 
 // Sub component for homepage render Pokemon Card.
 export default function CardPokemon({ pokemon }) {
@@ -8,35 +8,21 @@ export default function CardPokemon({ pokemon }) {
   const [detailPokemon, setDetailPokemon] = useState(() => ({
     id: '',
     name: '',
-    front_default: '',
+    frontDefault: '',
     types: ''
   }))
 
-  // get detail of pokemon.
-  const fetchDetailPokemon = useCallback(url => {
-    return axios.get(url).then(response => response.data)
-  }, [])
-
   useEffect(() => {
-    fetchDetailPokemon(`${pokemon?.url}`).then(response => {
-      // assignment data.
-      let data = {}
-      data.id = response?.id
-      data.name = response?.name
-      data.front_default = response?.sprites.front_default
-      const types = Object.values(response?.types).map(type => type.type.name)
-      data.types = types.join(', ') + '.'
-
-      // set data for state.
+    pokemonService.getOnePokemon(`${pokemon?.url}`).then(data => {
       setDetailPokemon(data)
     })
-  }, [pokemon?.url, fetchDetailPokemon])
+  }, [pokemon])
 
   return (
     <div className="col-xl-3 col-lg-4 col-md-6 mt-4">
       <div className="card card-pokemon">
         <img
-          src={`${detailPokemon.front_default}`}
+          src={`${detailPokemon.frontDefault}`}
           className="card-img-top"
           alt={`${detailPokemon.name}`}
         />
