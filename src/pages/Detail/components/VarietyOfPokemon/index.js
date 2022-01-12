@@ -16,6 +16,9 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
     pokemonService.getOnePokemon(replaceUrl).then(data => {
       setDetailPokemon(data)
     })
+    return () => {
+      setDetailPokemon({ id: '', name: '', frontDefault: '' })
+    }
   }, [pokemon])
 
   // render ui.

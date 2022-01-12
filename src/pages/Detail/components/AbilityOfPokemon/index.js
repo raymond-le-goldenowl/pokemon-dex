@@ -14,6 +14,9 @@ const AbilityOfPokemon = ({ url }) => {
       })
       setEffect(effectEntriesElements)
     })
+    return () => {
+      setEffect('')
+    }
   }, [url])
 
   return <React.Fragment>{effect}</React.Fragment>
