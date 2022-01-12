@@ -12,10 +12,13 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
 
   // get detail of pokemon.
   useEffect(() => {
-    const replaceUrl = `${pokemon?.url}`.replaceAll('-species', '')
-    pokemonService.getOnePokemon(replaceUrl).then(data => {
-      setDetailPokemon(data)
-    })
+    if (pokemon?.url) {
+      const replaceUrl = `${pokemon?.url}`.replaceAll('-species', '')
+      pokemonService.getOnePokemon(replaceUrl).then(data => {
+        setDetailPokemon(data)
+      })
+    }
+
     return () => {
       setDetailPokemon({ id: '', name: '', frontDefault: '' })
     }

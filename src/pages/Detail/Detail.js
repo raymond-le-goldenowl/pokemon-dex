@@ -27,16 +27,11 @@ export default function Detail() {
   const [evolutionChain, setEvolutionChain] = useState(() => ({}))
 
   useEffect(() => {
-    const fetchEvolutionChain = async () => {
-      if (detailPokemon.speciesUrl !== null) {
-        pokemonService
-          .getEvolutionChain(detailPokemon.speciesUrl)
-          .then(data => {
-            setEvolutionChain(data)
-          })
-      }
+    if (detailPokemon.speciesUrl !== null) {
+      pokemonService.getEvolutionChain(detailPokemon.speciesUrl).then(data => {
+        setEvolutionChain(data)
+      })
     }
-    fetchEvolutionChain()
   }, [detailPokemon])
 
   useEffect(() => {
@@ -130,12 +125,19 @@ export default function Detail() {
           <h3 className="title">Evolution</h3>
           <div className="row pts-content-sm">
             {Object.values(evolutionChain).map((chain, index) => {
+              if (chain?.name && chain?.url) {
+                return (
+                  <VarietyOfPokemon
+                    key={index + Date.now() + Math.random()}
+                    pokemon={chain}
+                    index={index}
+                  />
+                )
+              }
               return (
-                <VarietyOfPokemon
+                <React.Fragment
                   key={index + Date.now() + Math.random()}
-                  pokemon={chain}
-                  index={index}
-                />
+                ></React.Fragment>
               )
             })}
           </div>
