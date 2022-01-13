@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import ErrorFetchDataContextProvider from './contexts/ErrorFetchDataContextProvider'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ErrorFetchDataContextProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </ErrorFetchDataContextProvider>,
   document.getElementById('root')
 )
 

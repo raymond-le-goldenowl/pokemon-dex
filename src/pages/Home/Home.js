@@ -1,14 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import useWindowPosition from '../../hooks/useWindowPosition'
 import CardPokemon from './components/CardPokemon'
 import './styles.css'
 import { searchMode } from './constants'
 import pokemonService from '../../services/pokemonService'
+import { ErrorFetchDataContext } from '../../contexts/ErrorFetchDataContextProvider'
 
 export default function Home() {
   // state search keywords.
   const [keywords, setKeywords] = useState('')
   const [searchType, setSearchType] = useState({ type: searchMode.NAME })
+
+  const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   // save all pokemons.
   const [pokemons, setPokemons] = useState([])
@@ -33,9 +36,14 @@ export default function Home() {
 
   // Fetch all pokemons fist load.
   useEffect(() => {
-    pokemonService.getPokemonWithLimit(0, limit).then(resPokemons => {
-      setPokemons(resPokemons)
-    })
+    pokemonService
+      .getPokemonWithLimit(0, limit)
+      .then(resPokemons => {
+        setPokemons(resPokemons)
+      })
+      .catch(() => {
+        handleErrorFetchData()
+      })
   }, [])
 
   // Slice pokemons when offset changed.
@@ -57,9 +65,14 @@ export default function Home() {
       }
       if (searchType.type === searchMode.TYPE) {
         // get all types.
-        pokemonService.searchPokemonByType(keywords).then(result => {
-          setPokemonsDisplay(result)
-        })
+        pokemonService
+          .searchPokemonByType(keywords)
+          .then(result => {
+            setPokemonsDisplay(result)
+          })
+          .catch(() => {
+            handleErrorFetchData()
+          })
       }
     }
   }

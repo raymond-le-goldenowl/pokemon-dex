@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ErrorFetchDataContext } from '../../../../contexts/ErrorFetchDataContextProvider'
 import pokemonService from '../../../../services/pokemonService'
 
 // Sub component for homepage render Pokemon Card.
@@ -11,11 +12,17 @@ export default function CardPokemon({ pokemon }) {
     frontDefault: '',
     types: ''
   }))
+  const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   useEffect(() => {
-    pokemonService.getOnePokemon(`${pokemon?.url}`).then(data => {
-      setDetailPokemon(data)
-    })
+    pokemonService
+      .getOnePokemon(`${pokemon?.url}`)
+      .then(data => {
+        setDetailPokemon(data)
+      })
+      .catch(() => {
+        handleErrorFetchData()
+      })
   }, [pokemon])
 
   return (

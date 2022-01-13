@@ -1,19 +1,27 @@
-import { Suspense } from 'react'
+import { Suspense, useContext } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import ErrorFetchDataContextProvider from './contexts/ErrorFetchDataContextProvider'
+import { ErrorFetchDataContext } from './contexts/ErrorFetchDataContextProvider'
 import { history, renderRouteConfigs, routes } from './Router'
-
+import ErrorFetchData from './components/ErrorFetchData'
 function App() {
+  const { isError } = useContext(ErrorFetchDataContext)
   return (
-    <ErrorFetchDataContextProvider>
-      <div className="App">
-        <Suspense fallback={<p>Loading ...</p>}>
-          <BrowserRouter history={history}>
-            {renderRouteConfigs(routes)}
-          </BrowserRouter>
-        </Suspense>
-      </div>
-    </ErrorFetchDataContextProvider>
+    <>
+      {
+        // ErrorFetchData
+        isError ? (
+          <ErrorFetchData />
+        ) : (
+          <div className="App">
+            <Suspense fallback={<p>Loading ...</p>}>
+              <BrowserRouter history={history}>
+                {renderRouteConfigs(routes)}
+              </BrowserRouter>
+            </Suspense>
+          </div>
+        )
+      }
+    </>
   )
 }
 

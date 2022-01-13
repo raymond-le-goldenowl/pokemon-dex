@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ErrorFetchDataContext } from '../../../../contexts/ErrorFetchDataContextProvider'
 import pokemonService from '../../../../services/pokemonService'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
@@ -10,13 +11,20 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
     frontDefault: ''
   }))
 
+  const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
+
   // get detail of pokemon.
   useEffect(() => {
     if (pokemon?.url) {
       const replaceUrl = `${pokemon?.url}`.replaceAll('-species', '')
-      pokemonService.getOnePokemon(replaceUrl).then(data => {
-        setDetailPokemon(data)
-      })
+      pokemonService
+        .getOnePokemon(replaceUrl)
+        .then(data => {
+          setDetailPokemon(data)
+        })
+        .catch(() => {
+          handleErrorFetchData()
+        })
     }
 
     return () => {

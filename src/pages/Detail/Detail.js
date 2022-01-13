@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { ErrorFetchDataContext } from '../../contexts/ErrorFetchDataContextProvider'
 import pokemonService from '../../services/pokemonService'
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
@@ -9,6 +10,8 @@ export default function Detail() {
   const params = useParams()
 
   const id = params.id || 1
+
+  const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   // save state detail pokemon.
   const [detailPokemon, setDetailPokemon] = useState(() => ({
@@ -28,9 +31,14 @@ export default function Detail() {
 
   useEffect(() => {
     if (detailPokemon.speciesUrl !== null) {
-      pokemonService.getEvolutionChain(detailPokemon.speciesUrl).then(data => {
-        setEvolutionChain(data)
-      })
+      pokemonService
+        .getEvolutionChain(detailPokemon.speciesUrl)
+        .then(data => {
+          setEvolutionChain(data)
+        })
+        .catch(() => {
+          handleErrorFetchData()
+        })
     }
   }, [detailPokemon])
 
@@ -39,6 +47,9 @@ export default function Detail() {
       .getOnePokemon(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then(data => {
         setDetailPokemon(data)
+      })
+      .catch(() => {
+        handleErrorFetchData()
       })
   }, [id])
 
