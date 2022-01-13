@@ -60,8 +60,6 @@ export default function Detail() {
         Pokemon Dex
       </h1>
 
-      {/* Detail a pokemon */}
-
       <div className="row mb-5">
         <div className="col-md-6">
           <img
@@ -105,11 +103,7 @@ export default function Detail() {
                     />
                   )
                 }
-                return (
-                  <React.Fragment
-                    key={index + Date.now() + Math.random()}
-                  ></React.Fragment>
-                )
+                return null
               })}
             </ul>
           </div>
@@ -145,11 +139,7 @@ export default function Detail() {
                   />
                 )
               }
-              return (
-                <React.Fragment
-                  key={index + Date.now() + Math.random()}
-                ></React.Fragment>
-              )
+              return null
             })}
           </div>
         </div>

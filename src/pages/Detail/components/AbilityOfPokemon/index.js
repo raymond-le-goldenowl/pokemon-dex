@@ -16,7 +16,7 @@ const AbilityOfPokemon = ({ url }) => {
             if (effect_entry?.language?.name === LANG) {
               return <li key={index + Date.now()}>{effect_entry.effect}</li>
             }
-            return <React.Fragment key={index + Date.now()}></React.Fragment>
+            return null
           }
         )
         setEffect(effectEntriesElements)
