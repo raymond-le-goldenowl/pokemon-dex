@@ -15,8 +15,14 @@ export default function CardPokemon({ pokemon }) {
   const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   useEffect(() => {
+    const idSplitFromUrl = `${pokemon?.url}`
+      .match(/\/\d+\//g)
+      .join('')
+      .replaceAll('/', '')
+      .trim()
+
     pokemonService
-      .getOnePokemon(`${pokemon?.url}`)
+      .getOnePokemon(idSplitFromUrl)
       .then(data => {
         setDetailPokemon(data)
       })

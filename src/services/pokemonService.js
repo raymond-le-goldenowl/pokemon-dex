@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 class PokemonService {
-  async getOnePokemon(url) {
+  async getOnePokemon(id) {
     return axios
-      .get(url)
+      .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then(response => response.data)
       .then(data => {
         // assignment data.

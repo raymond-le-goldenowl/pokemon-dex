@@ -14,11 +14,16 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   // get detail of pokemon.
+
   useEffect(() => {
     if (pokemon?.url) {
-      const replaceUrl = `${pokemon?.url}`.replaceAll('-species', '')
+      const idSplitFromUrl = `${pokemon?.url}`
+        .match(/\/\d+\//g)
+        .join('')
+        .replaceAll('/', '')
+        .trim()
       pokemonService
-        .getOnePokemon(replaceUrl)
+        .getOnePokemon(idSplitFromUrl)
         .then(data => {
           setDetailPokemon(data)
         })

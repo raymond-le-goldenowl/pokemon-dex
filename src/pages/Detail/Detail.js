@@ -45,7 +45,7 @@ export default function Detail() {
 
   useEffect(() => {
     pokemonService
-      .getOnePokemon(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .getOnePokemon(id)
       .then(data => {
         setDetailPokemon(data)
       })
