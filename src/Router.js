@@ -9,16 +9,20 @@ export const history = createBrowserHistory()
 
 export const routes = {
   homePage: {
+    id: nanoid(5),
     path: '/home',
     exact: true,
     component: HomePage
   },
   detailPage: {
+    id: nanoid(5),
+
     path: '/detail/:id',
     exact: true,
     component: DetailPage
   },
   default: {
+    id: nanoid(5),
     path: '/',
     component: () => <Navigate to={`/home`} />
   }
@@ -27,12 +31,12 @@ export const routes = {
 export const renderRouteConfigs = routes => {
   return (
     <Routes>
-      {Object.values(routes).map((route, index) => {
+      {Object.values(routes).map(route => {
         const Layout = route.layout || React.Fragment
 
         return (
           <Route
-            key={nanoid()}
+            key={route.id}
             path={route.path}
             exact={route.exact}
             element={

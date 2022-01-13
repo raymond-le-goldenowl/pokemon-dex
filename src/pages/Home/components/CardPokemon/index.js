@@ -29,6 +29,15 @@ export default function CardPokemon({ pokemon }) {
       .catch(() => {
         handleErrorFetchData()
       })
+
+    return () => {
+      setDetailPokemon({
+        id: '',
+        name: '',
+        frontDefault: '',
+        types: ''
+      })
+    }
   }, [pokemon])
 
   return (

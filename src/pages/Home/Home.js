@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import CardPokemon from './components/CardPokemon'
 import './styles.css'
-import { searchMode } from './constants'
+import { LIMIT, searchMode } from './constants'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import useWindowPosition from 'hooks/useWindowPosition'
 import pokemonService from 'services/pokemonService'
@@ -15,11 +15,10 @@ export default function Home() {
   const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   // save all pokemons.
-  const [pokemons, setPokemons] = useState([])
+  const [listPokemon, setListPokemon] = useState([])
   // Pokemon for display to screen.
-  const [pokemonsDisplay, setPokemonsDisplay] = useState([])
+  const [listPokemonDisplay, setListPokemonDisplay] = useState([])
 
-  const limit = 1118
   const [offset, setOffset] = useState(0)
   // Hook for get scroll position.
   const pageScrollData = useWindowPosition()
@@ -38,9 +37,13 @@ export default function Home() {
   // Fetch all pokemons fist load.
   useEffect(() => {
     pokemonService
-      .getPokemonWithLimit(0, limit)
-      .then(resPokemons => {
-        setPokemons(resPokemons)
+      .getPokemonWithLimit(0, LIMIT)
+      .then(resListPokemon => {
+        const result = resListPokemon.map(pokemon => ({
+          ...pokemon,
+          id: nanoid(5)
+        }))
+        setListPokemon(result)
       })
       .catch(() => {
         handleErrorFetchData()
@@ -49,9 +52,12 @@ export default function Home() {
 
   // Slice pokemons when offset changed.
   useEffect(() => {
-    const pokemonSlice = pokemons.slice(offset, offset + 20)
-    setPokemonsDisplay(prePokemons => [...prePokemons, ...pokemonSlice])
-  }, [pokemons, offset])
+    const pokemonSlice = listPokemon.slice(offset, offset + 20)
+    setListPokemonDisplay(preListPokemon => [
+      ...preListPokemon,
+      ...pokemonSlice
+    ])
+  }, [listPokemon, offset])
 
   // Start search when form submit.
   const handleSubmitSearchForm = e => {
@@ -59,17 +65,21 @@ export default function Home() {
     if (keywords.trim().length > 0) {
       // check is search by NAME or TYPE
       if (searchType.type === searchMode.NAME) {
-        const resultFilter = pokemons.filter(pokemon => {
+        const resultFilter = listPokemon.filter(pokemon => {
           return pokemon.name.trim().includes(`${keywords}`.trim())
         })
-        setPokemonsDisplay(resultFilter)
+        setListPokemonDisplay(resultFilter)
       }
       if (searchType.type === searchMode.TYPE) {
         // get all types.
         pokemonService
           .searchPokemonByType(keywords)
-          .then(result => {
-            setPokemonsDisplay(result)
+          .then(resListPokemon => {
+            const result = resListPokemon.map(pokemon => ({
+              ...pokemon,
+              id: nanoid(5)
+            }))
+            setListPokemonDisplay(result)
           })
           .catch(() => {
             handleErrorFetchData()
@@ -82,8 +92,8 @@ export default function Home() {
     setKeywords(e.target.value)
     // reset pokemons while input search form is empty.
     if (e.target.value.trim() === '') {
-      const pokemonSlice = pokemons.slice(0, 0 + 20)
-      setPokemonsDisplay(pokemonSlice)
+      const pokemonSlice = listPokemon.slice(0, 0 + 20)
+      setListPokemonDisplay(pokemonSlice)
     }
   }
 
@@ -130,9 +140,9 @@ export default function Home() {
 
       {/* List Carts Of Pokemon */}
       <div className="row mb-5" id="list-of-pokemon" ref={divListPokemonRef}>
-        {pokemonsDisplay.map((pokemon, index) => (
-          <CardPokemon key={nanoid()} pokemon={pokemon} />
-        ))}
+        {listPokemonDisplay.map(pokemon => {
+          return <CardPokemon key={pokemon?.id} pokemon={pokemon} />
+        })}
       </div>
     </div>
   )

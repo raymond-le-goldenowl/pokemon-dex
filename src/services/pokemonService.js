@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { nanoid } from 'nanoid'
 
 class PokemonService {
   async getOnePokemon(id) {
@@ -22,6 +23,7 @@ class PokemonService {
         result.abilities = data?.abilities.map(item => {
           item = {
             ...item,
+            id: nanoid(5),
             isHidden: item.is_hidden
           }
           delete item.is_hidden
@@ -32,6 +34,7 @@ class PokemonService {
         result.stats = data?.stats.map(item => {
           item = {
             ...item,
+            id: nanoid(5),
             baseStat: item.base_stat
           }
           delete item.base_stat
@@ -60,9 +63,9 @@ class PokemonService {
     const speciesThree = data.evolves_to[0]?.evolves_to[0]?.species.name
     const urlOfSpeciesThree = data.evolves_to[0]?.evolves_to[0]?.species.url
     return [
-      { name: speciesOne, url: urlOfSpeciesOne },
-      { name: speciesTwo, url: urlOfSpeciesTwo },
-      { name: speciesThree, url: urlOfSpeciesThree }
+      { id: nanoid(5), name: speciesOne, url: urlOfSpeciesOne },
+      { id: nanoid(5), name: speciesTwo, url: urlOfSpeciesTwo },
+      { id: nanoid(5), name: speciesThree, url: urlOfSpeciesThree }
     ]
   }
 
@@ -78,6 +81,7 @@ class PokemonService {
           return effectEntries.map(effect_entry => {
             effect_entry = {
               ...effect_entry,
+              id: nanoid(5),
               shortEffect: effect_entry.short_effect
             }
             delete effect_entry.short_effect

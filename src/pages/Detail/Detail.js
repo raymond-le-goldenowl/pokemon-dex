@@ -95,11 +95,11 @@ export default function Detail() {
           <div className="pts-content-sm">
             <b>Effect entries: </b>
             <ul>
-              {Object.values(detailPokemon?.abilities).map((ability, index) => {
+              {Object.values(detailPokemon?.abilities).map(ability => {
                 if (ability?.isHidden === false) {
                   return (
                     <AbilityOfPokemon
-                      key={nanoid()}
+                      key={ability.id}
                       url={ability?.ability?.url}
                     />
                   )
@@ -115,7 +115,7 @@ export default function Detail() {
           <h3 className="title">Stats</h3>
           <div className="row pts-content-sm-l text-center">
             {Object.values(detailPokemon.stats).map((stat, index) => (
-              <div className="col-4 d-flex flex-column mt-3" key={nanoid()}>
+              <div className="col-4 d-flex flex-column mt-3" key={stat.id}>
                 <span>
                   <strong>{stat.stat.name}</strong>
                 </span>
@@ -131,7 +131,7 @@ export default function Detail() {
               if (chain?.name && chain?.url) {
                 return (
                   <VarietyOfPokemon
-                    key={nanoid()}
+                    key={chain.id}
                     pokemon={chain}
                     index={index}
                   />
