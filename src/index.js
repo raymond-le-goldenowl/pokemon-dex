@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import ErrorFetchDataContextProvider from './contexts/ErrorFetchDataContextProvider'
+import App from 'App'
+import reportWebVitals from 'reportWebVitals'
+import ErrorFetchDataContextProvider from 'contexts/ErrorFetchDataContextProvider'
 
 ReactDOM.render(
   <ErrorFetchDataContextProvider>

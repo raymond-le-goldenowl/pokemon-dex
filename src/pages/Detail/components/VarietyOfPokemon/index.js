@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ErrorFetchDataContext } from '../../../../contexts/ErrorFetchDataContextProvider'
-import pokemonService from '../../../../services/pokemonService'
+import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
+import pokemonService from 'services/pokemonService'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
   // save state detail pokemon.

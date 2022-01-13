@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import useWindowPosition from '../../hooks/useWindowPosition'
 import CardPokemon from './components/CardPokemon'
 import './styles.css'
 import { searchMode } from './constants'
-import pokemonService from '../../services/pokemonService'
-import { ErrorFetchDataContext } from '../../contexts/ErrorFetchDataContextProvider'
+import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
+import useWindowPosition from 'hooks/useWindowPosition'
+import pokemonService from 'services/pokemonService'
 
 export default function Home() {
   // state search keywords.
