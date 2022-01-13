@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import pokemonService from 'services/pokemonService'
 import { LANG } from './constants'
+import { nanoid } from 'nanoid'
+
 const AbilityOfPokemon = ({ url }) => {
   const [effect, setEffect] = useState('')
 
@@ -14,7 +16,7 @@ const AbilityOfPokemon = ({ url }) => {
         const effectEntriesElements = effectEntries.map(
           (effect_entry, index) => {
             if (effect_entry?.language?.name === LANG) {
-              return <li key={index + Date.now()}>{effect_entry.effect}</li>
+              return <li key={nanoid()}>{effect_entry.effect}</li>
             }
             return null
           }

@@ -5,6 +5,7 @@ import { searchMode } from './constants'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import useWindowPosition from 'hooks/useWindowPosition'
 import pokemonService from 'services/pokemonService'
+import { nanoid } from 'nanoid'
 
 export default function Home() {
   // state search keywords.
@@ -130,7 +131,7 @@ export default function Home() {
       {/* List Carts Of Pokemon */}
       <div className="row mb-5" id="list-of-pokemon" ref={divListPokemonRef}>
         {pokemonsDisplay.map((pokemon, index) => (
-          <CardPokemon key={index} pokemon={pokemon} />
+          <CardPokemon key={nanoid()} pokemon={pokemon} />
         ))}
       </div>
     </div>

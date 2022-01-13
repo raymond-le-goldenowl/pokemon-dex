@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import pokemonService from 'services/pokemonService'
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
+import { nanoid } from 'nanoid'
 import './styles.css'
 
 export default function Detail() {
@@ -98,7 +99,7 @@ export default function Detail() {
                 if (ability?.isHidden === false) {
                   return (
                     <AbilityOfPokemon
-                      key={index + Date.now() + Math.random()}
+                      key={nanoid()}
                       url={ability?.ability?.url}
                     />
                   )
@@ -114,10 +115,7 @@ export default function Detail() {
           <h3 className="title">Stats</h3>
           <div className="row pts-content-sm-l text-center">
             {Object.values(detailPokemon.stats).map((stat, index) => (
-              <div
-                className="col-4 d-flex flex-column mt-3"
-                key={index + Date.now() + Math.random()}
-              >
+              <div className="col-4 d-flex flex-column mt-3" key={nanoid()}>
                 <span>
                   <strong>{stat.stat.name}</strong>
                 </span>
@@ -133,7 +131,7 @@ export default function Detail() {
               if (chain?.name && chain?.url) {
                 return (
                   <VarietyOfPokemon
-                    key={index + Date.now() + Math.random()}
+                    key={nanoid()}
                     pokemon={chain}
                     index={index}
                   />
