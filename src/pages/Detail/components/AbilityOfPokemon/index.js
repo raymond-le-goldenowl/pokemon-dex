@@ -23,7 +23,7 @@ const AbilityOfPokemon = ({ url }) => {
         setEffect(effectEntriesElements)
       })
       .catch(() => {
-        handleErrorFetchData()
+        // handleErrorFetchData()
       })
     return () => {
       setEffect('')

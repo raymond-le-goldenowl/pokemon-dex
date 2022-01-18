@@ -49,7 +49,7 @@ class PokemonService {
   }
 
   async getEvolutionChain(url) {
-    const species = await axios.get(`${url}`)
+    const species = await axios.get(url)
     const resEvolutionChain = await axios.get(
       `${species.data.evolution_chain?.url}`
     )
@@ -73,7 +73,7 @@ class PokemonService {
     // get Ability Of Pokemon.
     return (
       axios
-        .get(`${url}`)
+        .get(url)
         // get effect_entries.
         .then(response => response.data?.effect_entries || [])
         .then(effectEntries => {
