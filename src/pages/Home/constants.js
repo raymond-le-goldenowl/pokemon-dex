@@ -3,4 +3,4 @@ export const searchMode = {
   TYPE: 'search_by_type'
 }
 
-export const LIMIT = 1118
+export const LIMIT_POKEMONS_LIST_COUNT = 1118

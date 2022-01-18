@@ -16,7 +16,6 @@ export const routes = {
   },
   detailPage: {
     id: nanoid(5),
-
     path: '/detail/:id',
     exact: true,
     component: DetailPage

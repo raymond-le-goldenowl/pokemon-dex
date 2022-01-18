@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import pokemonService from 'services/pokemonService'
+import './styles.css'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
   // save state detail pokemon.
@@ -14,7 +15,6 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
   // get detail of pokemon.
-
   useEffect(() => {
     if (pokemon?.url) {
       const idSplitFromUrl = `${pokemon?.url}`
@@ -31,10 +31,6 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
           handleErrorFetchData()
         })
     }
-
-    return () => {
-      setDetailPokemon({ id: '', name: '', frontDefault: '' })
-    }
   }, [pokemon])
 
   // render ui.
@@ -49,8 +45,7 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
       </Link>
 
       <Link
-        className="d-block h5"
-        style={{ textDecoration: 'none', color: 'black' }}
+        className="d-block h5 pokemon-variety"
         to={`/detail/${detailPokemon.id}`}
       >
         {detailPokemon.name}

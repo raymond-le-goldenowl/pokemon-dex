@@ -1,10 +1,11 @@
-import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+
 import pokemonService from 'services/pokemonService'
+import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
+
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
-import { nanoid } from 'nanoid'
 import './styles.css'
 
 export default function Detail() {
@@ -85,11 +86,11 @@ export default function Detail() {
           </p>
           <p>
             <span>
-              <b>Weight:</b> {detailPokemon.weight} KG
+              <b>Weight:</b> {detailPokemon.weight}kg
             </span>
             {` `}
             <span>
-              <b>Height:</b> {detailPokemon.height} M
+              <b>Height:</b> {detailPokemon.height}m
             </span>
           </p>
           <div className="pts-content-sm">

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import CardPokemon from './components/CardPokemon'
-import './styles.css'
-import { LIMIT, searchMode } from './constants'
-import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
-import useWindowPosition from 'hooks/useWindowPosition'
-import pokemonService from 'services/pokemonService'
 import { nanoid } from 'nanoid'
+
+import pokemonService from 'services/pokemonService'
+import useWindowPosition from 'hooks/useWindowPosition'
+import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
+
+import CardPokemon from './components/CardPokemon'
+import { LIMIT_POKEMONS_LIST_COUNT, searchMode } from './constants'
+import './styles.css'
 
 export default function Home() {
   // state search keywords.
@@ -37,7 +39,7 @@ export default function Home() {
   // Fetch all pokemons fist load.
   useEffect(() => {
     pokemonService
-      .getPokemonWithLimit(0, LIMIT)
+      .getPokemonWithLimit(0, LIMIT_POKEMONS_LIST_COUNT)
       .then(resListPokemon => {
         const result = resListPokemon.map(pokemon => ({
           ...pokemon,

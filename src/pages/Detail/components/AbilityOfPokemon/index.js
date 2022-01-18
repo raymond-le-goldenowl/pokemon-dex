@@ -12,22 +12,17 @@ const AbilityOfPokemon = ({ url }) => {
     pokemonService
       .getAbilityOfPokemon(url)
       .then(effectEntries => {
-        const effectEntriesElements = effectEntries.map(
-          (effect_entry, index) => {
-            if (effect_entry?.language?.name === LANG) {
-              return <li key={effect_entry.id}>{effect_entry.effect}</li>
-            }
-            return null
+        const effectEntriesElements = effectEntries.map(effect_entry => {
+          if (effect_entry?.language?.name === LANG) {
+            return <li key={effect_entry.id}>{effect_entry.effect}</li>
           }
-        )
+          return null
+        })
         setEffect(effectEntriesElements)
       })
       .catch(() => {
-        // handleErrorFetchData()
+        handleErrorFetchData()
       })
-    return () => {
-      setEffect('')
-    }
   }, [url])
 
   return <React.Fragment>{effect}</React.Fragment>

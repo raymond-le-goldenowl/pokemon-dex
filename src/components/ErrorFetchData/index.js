@@ -1,5 +1,6 @@
 import React from 'react'
 import errorFetchDataImage from 'assets/images/error-fetch-data.png'
+
 export default function ErrorFetchData() {
   return (
     <div className="container d-flex justify-content-center align-items-center text-center">

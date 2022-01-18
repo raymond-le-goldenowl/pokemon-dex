@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 export const ErrorFetchDataContext = React.createContext()
 
 export default function ErrorFetchDataContextProvider({ children }) {
   const [isError, setIsError] = React.useState(false)
-
-  useEffect(() => {
-    setIsError(false)
-  }, [])
 
   const handleErrorFetchData = () => {
     if (isError) {
