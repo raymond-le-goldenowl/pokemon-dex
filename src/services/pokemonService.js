@@ -55,7 +55,9 @@ class PokemonService {
     const resEvolutionChain = await axios.get(
       `${species.data.evolution_chain?.url}`
     )
+
     const data = resEvolutionChain.data?.chain
+
     const speciesOne = data.species.name
     const urlOfSpeciesOne = data.species.url
 
@@ -64,6 +66,7 @@ class PokemonService {
 
     const speciesThree = data.evolves_to[0]?.evolves_to[0]?.species.name
     const urlOfSpeciesThree = data.evolves_to[0]?.evolves_to[0]?.species.url
+
     return [
       { id: nanoid(5), name: speciesOne, url: urlOfSpeciesOne },
       { id: nanoid(5), name: speciesTwo, url: urlOfSpeciesTwo },

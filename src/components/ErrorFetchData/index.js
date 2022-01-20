@@ -1,4 +1,5 @@
 import React from 'react'
+
 import errorFetchDataImage from 'assets/images/error-fetch-data.png'
 
 export default function ErrorFetchData() {
