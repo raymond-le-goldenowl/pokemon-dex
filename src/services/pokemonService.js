@@ -16,8 +16,10 @@ class PokemonService {
         const types = Object.values(data?.types).map(type => type.type.name)
         result.types = types.join(', ') + '.'
         result.baseExperience = data?.base_experience
-        result.weight = data?.weight
-        result.height = data?.height
+        // hectograms to kg.
+        result.weight = data?.weight / 10
+        // decimetres to m.
+        result.height = data?.height / 10
 
         // Refactor object key.
         result.abilities = data?.abilities.map(item => {
