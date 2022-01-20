@@ -6,21 +6,35 @@
 .btn-purple:hover {
   color: #fff;
 }
+
 .title {
-  font-size: 2.3rem;
+  font-size: 2rem;
 }
 
-.pts-content-b p {
-  font-size: 1.4rem;
+.pts-content-b p b {
+  font-size: 0.9rem;
+}
+
+.pts-content-b p b {
+  font-size: 1.25rem;
 }
 
 .pts-content-sm {
-  font-size: 1.625rem;
+  font-size: 1rem;
+}
+
+.pts-content-sm b {
+  font-size: 1.25rem;
 }
 
 .pts-content-sm-l {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
+
+.pts-content-sm-l strong {
+  font-size: 1.25rem;
+}
+
 /* ======================= Styles for LOGO page ======================= */
 #logo-page {
   font-size: 4rem;
