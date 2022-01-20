@@ -36,7 +36,7 @@ export default function Home() {
     }
   }, [pageScrollData])
 
-  // Fetch all pokemons fist load.
+  // Fetch all pokemons on first load.
   useEffect(() => {
     pokemonService
       .getPokemonWithLimit(0, LIMIT_POKEMONS_LIST_COUNT)
