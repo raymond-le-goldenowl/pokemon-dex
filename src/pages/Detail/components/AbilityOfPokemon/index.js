@@ -13,9 +13,9 @@ const AbilityOfPokemon = ({ url }) => {
     pokemonService
       .getAbilityOfPokemon(url)
       .then(effectEntries => {
-        const effectEntriesElements = effectEntries.map(effect_entry => {
-          if (effect_entry?.language?.name === LANG) {
-            return <li key={effect_entry.id}>{effect_entry.effect}</li>
+        const effectEntriesElements = effectEntries.map(effectEntry => {
+          if (effectEntry?.language?.name === LANG) {
+            return <li key={effectEntry.id}>{effectEntry.effect}</li>
           }
           return null
         })
