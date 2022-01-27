@@ -8,11 +8,7 @@ import './styles.css'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
   // save state detail pokemon.
-  const [detailPokemon, setDetailPokemon] = useState(() => ({
-    id: '',
-    name: '',
-    frontDefault: ''
-  }))
+  const [detailPokemon, setDetailPokemon] = useState({})
 
   const { handleErrorFetchData } = useContext(ErrorFetchDataContext)
 
@@ -39,18 +35,21 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
   return (
     <div className="col-4 text-center">
       <div>#{index + 1}</div>
-      <Link to={`/detail/${detailPokemon.id}`}>
+      <Link to={`/detail/${detailPokemon?.id}`}>
         <img
-          src={`${detailPokemon.frontDefault}`}
-          alt={`${detailPokemon.name}`}
+          src={`${
+            detailPokemon?.sprites?.frontDefault ||
+            detailPokemon?.sprites?.backDefault
+          }`}
+          alt={`${detailPokemon?.name}`}
         />
       </Link>
 
       <Link
         className="d-block h5 pokemon-variety"
-        to={`/detail/${detailPokemon.id}`}
+        to={`/detail/${detailPokemon?.id}`}
       >
-        {detailPokemon.name}
+        {detailPokemon?.name}
       </Link>
     </div>
   )

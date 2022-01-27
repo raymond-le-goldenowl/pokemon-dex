@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { nanoid } from 'nanoid'
+import { toCamelCase } from 'utils'
 
 class PokemonService {
   async getOnePokemon(id) {
@@ -7,65 +8,44 @@ class PokemonService {
       .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then(response => response.data)
       .then(data => {
-        // assignment data.
-        let result = {}
-        result.id = data?.id
-        result.name = data?.name
-        result.types = data?.types
-        result.frontDefault = data?.sprites.front_default
         const types = Object.values(data?.types).map(type => type.type.name)
-        result.types = types.join(', ') + '.'
-        result.baseExperience = data?.base_experience
+        data.types = types.join(', ') + '.'
         // hectograms to kg.
-        result.weight = data?.weight / 10
+        data.weight = data?.weight / 10
         // decimetres to m.
-        result.height = data?.height / 10
+        data.height = data?.height / 10
 
-        // Refactor object key.
-        result.abilities = data?.abilities.map(item => {
-          item = {
-            ...item,
-            id: nanoid(5),
-            isHidden: item.is_hidden
-          }
-          delete item.is_hidden
-          return item
+        // add object key.
+        data.abilities = data?.abilities.map(item => {
+          return { ...item, id: nanoid(5) }
         })
 
-        // Refactor object key.
-        result.stats = data?.stats.map(item => {
-          item = {
-            ...item,
-            id: nanoid(5),
-            baseStat: item.base_stat
-          }
-          delete item.base_stat
-          return item
+        // add object key.
+        data.stats = data?.stats.map(item => {
+          return { ...item, id: nanoid(5) }
         })
-
-        result.speciesUrl = data?.species.url
 
         // set data for state.
-        return result
+        return toCamelCase(data)
       })
   }
 
   async getEvolutionChain(url) {
     const species = await axios.get(url)
-    const resEvolutionChain = await axios.get(
-      `${species.data.evolution_chain?.url}`
-    )
 
-    const data = resEvolutionChain.data?.chain
+    const resEvolutionChain = await axios.get(
+      `${toCamelCase(species.data).evolutionChain?.url}`
+    )
+    const data = toCamelCase(resEvolutionChain?.data).chain
 
     const speciesOne = data.species.name
     const urlOfSpeciesOne = data.species.url
 
-    const speciesTwo = data.evolves_to[0]?.species.name
-    const urlOfSpeciesTwo = data.evolves_to[0]?.species.url
+    const speciesTwo = data.evolvesTo[0]?.species.name
+    const urlOfSpeciesTwo = data.evolvesTo[0]?.species.url
 
-    const speciesThree = data.evolves_to[0]?.evolves_to[0]?.species.name
-    const urlOfSpeciesThree = data.evolves_to[0]?.evolves_to[0]?.species.url
+    const speciesThree = data.evolvesTo[0]?.evolvesTo[0]?.species.name
+    const urlOfSpeciesThree = data.evolvesTo[0]?.evolvesTo[0]?.species.url
 
     return [
       { id: nanoid(5), name: speciesOne, url: urlOfSpeciesOne },
@@ -79,18 +59,12 @@ class PokemonService {
     return (
       axios
         .get(url)
-        // get effect_entries.
-        .then(response => response.data?.effect_entries || [])
-        .then(effectEntries => {
-          // update object key.
-          return effectEntries.map(effect_entry => {
-            effect_entry = {
-              ...effect_entry,
-              id: nanoid(5),
-              shortEffect: effect_entry.short_effect
-            }
-            delete effect_entry.short_effect
-            return effect_entry
+        // get effect entries.
+        .then(response => {
+          const effectEntries = toCamelCase(response.data).effectEntries
+          // add object key.
+          return effectEntries.map(effectEntry => {
+            return { ...effectEntry, id: nanoid(5) }
           })
         })
     )
