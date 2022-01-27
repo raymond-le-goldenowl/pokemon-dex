@@ -8,6 +8,7 @@ import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
 
 import './styles.css'
+import defaultImagePokemon636x636 from 'assets/images/defaultImagePokemon636x636.png'
 
 export default function Detail() {
   const params = useParams()
@@ -18,21 +19,6 @@ export default function Detail() {
 
   // save state detail pokemon.
   const [detailPokemon, setDetailPokemon] = useState({})
-
-  /*
-() => ({
-    id: '',
-    name: '',
-    frontDefault: '',
-    types: '',
-    baseExperience: '',
-    weight: '',
-    height: '',
-    abilities: [],
-    stats: [],
-    speciesUrl: null
-  })
-  */
   const [evolutionChain, setEvolutionChain] = useState({})
 
   useEffect(() => {
@@ -68,16 +54,27 @@ export default function Detail() {
 
       <div className="row mb-5">
         <div className="col-md-6">
-          <img
-            src={`${
-              detailPokemon?.sprites?.frontDefault ||
-              detailPokemon?.sprites?.backDefault
-            }`}
-            className="img-fluid"
-            alt={detailPokemon?.name}
-            width="100%"
-            height="100%"
-          />
+          {detailPokemon?.sprites?.frontDefault &&
+          detailPokemon?.sprites?.backDefault ? (
+            <img
+              src={`${
+                detailPokemon?.sprites?.frontDefault ||
+                detailPokemon?.sprites?.backDefault
+              }`}
+              className="img-fluid"
+              alt={detailPokemon?.name}
+              width="100%"
+              height="100%"
+            />
+          ) : (
+            <img
+              src={defaultImagePokemon636x636}
+              className="img-fluid"
+              alt="default-pokemon-img"
+              width="100%"
+              height="100%"
+            />
+          )}
         </div>
 
         <div className="col-md-6 pts-content-b">

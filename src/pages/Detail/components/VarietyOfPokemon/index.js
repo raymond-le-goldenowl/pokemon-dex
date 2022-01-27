@@ -5,6 +5,7 @@ import pokemonService from 'services/pokemonService'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 
 import './styles.css'
+import defaultImagePokemon96x96 from 'assets/images/defaultImagePokemon96x96.png'
 
 const VarietyOfPokemon = ({ pokemon, index }) => {
   // save state detail pokemon.
@@ -36,13 +37,18 @@ const VarietyOfPokemon = ({ pokemon, index }) => {
     <div className="col-4 text-center">
       <div>#{index + 1}</div>
       <Link to={`/detail/${detailPokemon?.id}`}>
-        <img
-          src={`${
-            detailPokemon?.sprites?.frontDefault ||
-            detailPokemon?.sprites?.backDefault
-          }`}
-          alt={`${detailPokemon?.name}`}
-        />
+        {detailPokemon?.sprites?.frontDefault &&
+        detailPokemon?.sprites?.backDefault ? (
+          <img
+            src={`${
+              detailPokemon?.sprites?.frontDefault ||
+              detailPokemon?.sprites?.backDefault
+            }`}
+            alt={`${detailPokemon?.name}`}
+          />
+        ) : (
+          <img src={defaultImagePokemon96x96} alt="default-pokemon-img" />
+        )}
       </Link>
 
       <Link
