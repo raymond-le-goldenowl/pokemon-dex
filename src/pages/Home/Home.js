@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import pokemonService from 'services/pokemonService'
 import useWindowPosition from 'hooks/useWindowPosition'
@@ -7,6 +7,7 @@ import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 
 import CardPokemon from './components/CardPokemon'
 import { LIMIT_POKEMONS_LIST_COUNT, searchMode } from './constants'
+
 import './styles.css'
 
 export default function Home() {

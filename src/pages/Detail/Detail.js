@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 
 import pokemonService from 'services/pokemonService'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 
 import AbilityOfPokemon from './components/AbilityOfPokemon'
 import VarietyOfPokemon from './components/VarietyOfPokemon'
+
 import './styles.css'
 
 export default function Detail() {

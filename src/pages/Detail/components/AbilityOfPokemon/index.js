@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { LANG } from './constants'
 import pokemonService from 'services/pokemonService'
 import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
-import { LANG } from './constants'
 
 const AbilityOfPokemon = ({ url }) => {
   const [effect, setEffect] = useState('')

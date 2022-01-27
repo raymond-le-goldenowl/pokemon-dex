@@ -1,8 +1,8 @@
 import { Suspense, useContext } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 import { history, renderRouteConfigs, routes } from 'config/router'
+import { ErrorFetchDataContext } from 'contexts/ErrorFetchDataContextProvider'
 
 import ErrorFetchData from './components/ErrorFetchData'
 
