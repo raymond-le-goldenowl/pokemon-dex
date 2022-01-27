@@ -1,10 +1,11 @@
 import React, { lazy } from 'react'
+
 import { createBrowserHistory } from 'history'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 
-const HomePage = lazy(() => import('./pages/Home'))
-const DetailPage = lazy(() => import('./pages/Detail'))
+const HomePage = lazy(() => import('../pages/Home'))
+const DetailPage = lazy(() => import('../pages/Detail'))
 
 export const history = createBrowserHistory()
 
