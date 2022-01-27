@@ -52,8 +52,8 @@ export default function Detail() {
         Pokemon Dex
       </h1>
 
-      <div className="row mb-5">
-        <div className="col-md-6">
+      <div className="row mb-1">
+        <div className="col-md-4">
           {detailPokemon?.sprites?.frontDefault &&
           detailPokemon?.sprites?.backDefault ? (
             <img
@@ -77,7 +77,7 @@ export default function Detail() {
           )}
         </div>
 
-        <div className="col-md-6 pts-content-b">
+        <div className="col-md-8 pts-content-b">
           <h3 className="title">Bio</h3>
           <p>
             <b>Name:</b> {`${detailPokemon?.name}`.toUpperCase()}
