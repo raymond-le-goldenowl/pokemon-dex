@@ -124,11 +124,6 @@ export default function Home() {
 
           <div className="col-2 d-flex align-items-end">
             <select
-              style={{
-                minWidth: '100px',
-                height: '50px',
-                borderRadius: '50px'
-              }}
               className="form-select"
               aria-label="Default select example"
               defaultValue={searchMode.NAME}
