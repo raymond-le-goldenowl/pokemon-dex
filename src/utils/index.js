@@ -1,3 +1,3 @@
-const { default: toCamelCase } = require('./toCamelCase')
+import toCamelCase from './toCamelCase'
 
 export { toCamelCase }
