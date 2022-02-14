@@ -75,14 +75,16 @@ class PokemonService {
     return axios.get(url).then(response => response.data?.results)
   }
 
-  async searchPokemonByType(keywords) {
+  async searchPokemonByType(keyword) {
+    const trimmedKeyword = keyword.toString().trim()
+
     return (
       axios
         .get('https://pokeapi.co/api/v2/type/')
         .then(res => res.data.results)
         .then(types => {
           return types.filter(type => {
-            return type.name.trim().includes(`${keywords}`.trim())
+            return type.name.trim().includes(trimmedKeyword)
           })
         })
         // filter type and get all pokemon with type name.
